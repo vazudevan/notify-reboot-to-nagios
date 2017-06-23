@@ -1,17 +1,17 @@
-'* Script Name:		NotifyRebootToNagios.vbs
-'* Created On:		5/19/2017
-'* Author:			Brijesh, Vasudevan
-'* Purpose:			Notifies a Nagios via a Web post method that the server is 
-'*					going down or has just come up.
-'* History:			Brijesh Nagarkar 6/22/2017
-'*					Modified to exclude link-local address 
-'*					Automatic Private IP Addressing (APIPA)
-'* Caveats:			Error handling is not done.
+'* Script Name:     NotifyRebootToNagios.vbs
+'* Created On:      5/19/2017
+'* Author:          Brijesh, Vasudevan
+'* Purpose:         Notifies a Nagios via a Web post method that the server is 
+'*                  going down or has just come up.
+'* History:         Brijesh Nagarkar 6/22/2017
+'*                  Modified to exclude link-local address 
+'*                  Automatic Private IP Addressing (APIPA)
+'* Caveats:         Error handling is not done.
 '*
-'* Script Arugment:	< UP/DOWN > Strictly limit argument to 'UP' or 'DOWN'
-'* 					Other arguments will be ignored / lead to undesired results.
-'* Setup:			This scripts needs to be setup to run during startup and 
-'*					shutdown by editing the local computer policy.
+'* Script Arugment: < UP/DOWN > Strictly limit argument to 'UP' or 'DOWN'
+'*                  Other arguments will be ignored / lead to undesired results.
+'* Setup:           This scripts needs to be setup to run during startup and 
+'*                  shutdown by editing the local computer policy.
 '*
 '================
 ' Configurations
@@ -19,7 +19,6 @@
 '================
 dim UrlToPost
 'UrlToPost  = http://your-monitoring-host/path_to/alert_reboot.php
-
 
 '===== Begin ======
 
