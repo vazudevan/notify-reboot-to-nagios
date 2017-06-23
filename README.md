@@ -16,10 +16,10 @@ Administrators should not miss out such events, especially if the reboot was uni
 
 # Approach
 ### Server Component:
-Simple http/s form data with IP Addresses and event type (UP/DOWN), is collected.  A corresponding monitored host is matching against nagios config, and passive result submitted with the event type to the matched host.
+Simple http/s form data with IP Addresses and event type (UP/DOWN), is collected.  A corresponding monitored host is matched against nagios config, and passive result submitted with an event type for the matched host.  Nagios process the passive command and initiates Notification.
 
 ### Client Component:
-Reterives the configured IP addresss and passes on to Server when either shutting down, or coming up.  This is done using 
+Reterives the configured IP addresss and passes on to server when either shutting down, or coming up.  This is done using 
 1.  Init script in CentOS 6X or lower.
 2.  systemd script for CentOS 7
 3.  VBScript in Windows (Configured to run in local computer policy during startup and shutdown)
@@ -30,4 +30,4 @@ Reterives the configured IP addresss and passes on to Server when either shuttin
 * In nagios, each host needs to be configured in a seperate file with the file name same as nagios host_name directive
 
 # Constraints
-* Currently works with individual file for each configured host in nagios.
+* Currently works only with individual file for each configured host in nagios.
