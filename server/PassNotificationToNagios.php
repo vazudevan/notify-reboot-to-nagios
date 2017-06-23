@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nagios_host_object="";
     $host_ips="";
     $host_status = 0;
-	$err_msg="";
+    $err_msg="";
     $host_staus_msg="Just Coming Up";
 	
 // Lets get client IP from where this was called, taking all IPs as this might have traversed through proxy, or loadbalancers.
@@ -152,11 +152,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		exit;		
 	}
     $nagios_host_object = preg_replace("/\r\n|\r|\n/", '', $nagios_host_object);
-	$nagios_host_object = trim($nagios_host_object);
+    $nagios_host_object = trim($nagios_host_object);
     //[<timestamp>] PROCESS_HOST_CHECK_RESULT;<host_name>;<host_status>;<plugin_output>
     $cmd= "[" . time() . "] PROCESS_HOST_CHECK_RESULT;" . $nagios_host_object . ";" . $host_status . ";" . $host_staus_msg;
     shell_exec("echo \"$cmd\" >> $cmd_file");	
-	$err_msg="$host_staus_msg";
+    $err_msg="$host_staus_msg";
     log_event($err_msg);
     //echo "I got " . $event_type . " NagiOS XI Host: " . $nagios_host_object . " " . $host_ip . " detected IP " . $client_ip ;
 }
