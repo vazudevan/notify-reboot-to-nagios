@@ -32,7 +32,7 @@ $nagios_host_cfg="/usr/local/nagios/etc/hosts";
 * LOG_EMERG, LOG_ALERT, LOG_CRIT, LOG_ERR, LOG_WARNING, LOG_NOTICE, LOG_INFO, LOG_DEBUG
 * LOG_LOCAL7 not availabe on windows.
 */
-function log_event($message) {
+function log_event($level, $message) {
 	openlog("RebootEvents", LOG_PID, LOG_LOCAL0);
 	syslog($level, $message);
 	closelog();
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if(empty($event_type) || empty($host_ip) )
 	{
 		$err_msg = "Event Type or Host IP is found empty";
-		log_event($err_msg);
+		log_event(LOG_ERR, $err_msg);
 		echo $err_msg;
 		exit;
 	}
@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if(!file_exists($cmd_file))
 	{
 		$err_msg = "$cmd_file does not exists";
-		log_event($err_msg);
+		log_event(LOG_ERR, $err_msg);
 		echo $err_msg;
 		exit;
 	}
@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if(!file_exists($nagios_host_cfg))
 	{
 		$err_msg = "$nagios_host_cfg does not exists";
-		log_event($err_msg);
+		log_event(LOG_ERR, $err_msg);
 		echo $err_msg;
 		exit;
 	}
@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	else
 	{
 		$err_msg = "Invalid Event Type Detected ($event_type)";
-		log_event($err_msg);
+		log_event(LOG_ERR, $err_msg);
 		echo $err_msg;
 		exit;
 	}
@@ -110,12 +110,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         {
             $host_ips = array($client_ip);
 			$err_msg="Empty IP address passed to the script. Continuing using auto-detected IP address($client_ip)";
-			log_event($err_msg);
+			log_event(LOG_ERR, $err_msg);
         }
         else
         {
 			$err_msg="Empty IP address was passed to the script. auto-detected IP address is empty as well";
-			log_event($err_msg);
+			log_event(LOG_ERR, $err_msg);
             exit;
         }
     }
@@ -148,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if(empty($nagios_host_object))
 	{
 		$err_msg = "Nagios host name for IP(s) $host_ip could not be found in $nagios_host_cfg";
-		log_event($err_msg);
+		log_event(LOG_ERR, $err_msg);
 		exit;		
 	}
     $nagios_host_object = preg_replace("/\r\n|\r|\n/", '', $nagios_host_object);
@@ -157,6 +157,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $cmd= "[" . time() . "] PROCESS_HOST_CHECK_RESULT;" . $nagios_host_object . ";" . $host_status . ";" . $host_staus_msg;
     shell_exec("echo \"$cmd\" >> $cmd_file");	
     $err_msg="$host_staus_msg";
-    log_event($err_msg);
+    log_event(LOG_INFO, $err_msg);
     //echo "I got " . $event_type . " NagiOS XI Host: " . $nagios_host_object . " " . $host_ip . " detected IP " . $client_ip ;
 }
